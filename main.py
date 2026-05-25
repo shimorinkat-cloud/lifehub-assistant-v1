@@ -1,39 +1,13 @@
 """Main module for LifeHub Assistant."""
 
+from commands import show_help
 from contacts import create_contact
-from storage import load_data, save_data
 from notes import Note
-
-
-def show_help() -> None:
-    """Display available commands."""
-    print(
-        """
-Available commands:
-
-Contacts:
-  add-contact
-  show-contacts
-  search-contact
-  delete-contact
-  birthdays
-
-Notes:
-  add-note
-  show-notes
-  search-note
-  delete-note
-
-System:
-  save
-  help
-  exit
-"""
-    )
+from storage import load_data, save_data
 
 
 def main() -> None:
-    """Main application loop."""
+    """Run the main application loop."""
     address_book, notebook = load_data()
 
     print("Welcome to LifeHub Assistant!")
@@ -73,7 +47,6 @@ def main() -> None:
 
         elif command == "search-contact":
             query = input("Search query: ")
-
             results = address_book.search_contact(query)
 
             if not results:
@@ -81,6 +54,25 @@ def main() -> None:
             else:
                 for contact in results:
                     print(contact)
+
+        elif command == "edit-contact":
+            name = input("Enter contact name to edit: ")
+            phone = input("New phone (leave empty to skip): ") or None
+            email = input("New email (leave empty to skip): ") or None
+            address = input("New address (leave empty to skip): ") or None
+            birthday = input(
+                "New birthday DD.MM.YYYY (leave empty to skip): "
+            ) or None
+
+            print(
+                address_book.edit_contact(
+                    name,
+                    phone,
+                    email,
+                    address,
+                    birthday,
+                )
+            )
 
         elif command == "delete-contact":
             name = input("Enter contact name: ")
@@ -102,9 +94,7 @@ def main() -> None:
 
         elif command == "add-note":
             text = input("Note text: ")
-            tags_input = input(
-                "Tags (comma separated, optional): "
-            )
+            tags_input = input("Tags (comma separated, optional): ")
 
             tags = [
                 tag.strip()
@@ -113,7 +103,6 @@ def main() -> None:
             ]
 
             note = Note(text, tags)
-
             print(notebook.add_note(note))
 
         elif command == "show-notes":
@@ -127,7 +116,6 @@ def main() -> None:
 
         elif command == "search-note":
             query = input("Search query: ")
-
             results = notebook.search_notes(query)
 
             if not results:
@@ -135,6 +123,23 @@ def main() -> None:
             else:
                 for note in results:
                     print(note)
+
+        elif command == "edit-note":
+            old_text = input("Enter note text to edit: ")
+            new_text = input("New note text (leave empty to skip): ") or None
+            tags_input = input(
+                "New tags comma separated (leave empty to skip): "
+            )
+
+            new_tags = None
+            if tags_input:
+                new_tags = [
+                    tag.strip()
+                    for tag in tags_input.split(",")
+                    if tag.strip()
+                ]
+
+            print(notebook.edit_note(old_text, new_text, new_tags))
 
         elif command == "delete-note":
             text = input("Enter note text: ")
