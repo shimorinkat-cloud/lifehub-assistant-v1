@@ -12,6 +12,7 @@ It supports data validation, search, editing, deletion, tags for notes, and data
 ## Contacts
 
 - Add contacts
+- Edit contacts
 - Show all contacts
 - Search contacts
 - Delete contacts
@@ -23,6 +24,7 @@ It supports data validation, search, editing, deletion, tags for notes, and data
 ## Notes
 
 - Add notes
+- Edit notes
 - Show all notes
 - Search notes
 - Delete notes
@@ -104,6 +106,7 @@ python main.py
 add-contact
 show-contacts
 search-contact
+edit-contact
 delete-contact
 birthdays
 ```
@@ -114,6 +117,7 @@ birthdays
 add-note
 show-notes
 search-note
+edit-note
 delete-note
 ```
 
